@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Program Artemis: Manusia Kembali ke Bulan | KBDI</title>
+  <link rel="icon" href="https://edukbdi.github.io/logo_KBDI/kbdi_trans.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #080b12;
+      --bg2: #0d1220;
+      --bg3: #111827;
+      --surface: #161d2e;
+      --surface2: #1e2a40;
+      --border: rgba(120,160,255,0.12);
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --gold: #f59e0b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      --hero-grad: linear-gradient(160deg, #0a1628 0%, #050810 60%, #0d0820 100%);
+      --card-shadow: 0 4px 24px rgba(0,0,20,0.5);
+    }
+
+    html.light {
+      --bg: #f0f4ff;
+      --bg2: #e8eef9;
+      --bg3: #dde5f5;
+      --surface: #ffffff;
+      --surface2: #eef2fc;
+      --border: rgba(59,130,246,0.15);
+      --accent: #1d4ed8;
+      --accent2: #2563eb;
+      --gold: #b45309;
+      --text: #0f172a;
+      --text-muted: #374151;
+      --text-faint: #6b7280;
+      --hero-grad: linear-gradient(160deg, #c7d9f8 0%, #dde8ff 60%, #ccd3f0 100%);
+      --card-shadow: 0 4px 24px rgba(0,30,80,0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      background: var(--hero-grad);
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-stars {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--d,3s) ease-in-out infinite alternate;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%   { opacity: 0.1; transform: scale(0.8); }
+      100% { opacity: var(--max,0.8); transform: scale(1.1); }
+    }
+
+    /* Hero selalu gelap walau light mode aktif */
+    .hero {
+      --bg: #080b12;
+      --bg2: #0d1220;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      --accent2: #60a5fa;
+      --border: rgba(120,160,255,0.12);
+      background: linear-gradient(160deg, #0a1628 0%, #050810 60%, #0d0820 100%) !important;
+    }
+
+    .hero .hero-eyebrow,
+    .hero .hero-title,
+    .hero .hero-subtitle,
+    .hero .hero-meta-item,
+    .hero .hero-tag {
+      color: revert;
+    }
+
+    .hero .hero-eyebrow { color: #60a5fa; }
+    .hero .hero-title   { color: #e2e8f0; }
+    .hero .hero-title span { color: #60a5fa; }
+    .hero .hero-subtitle { color: #94a3b8; }
+    .hero .hero-meta-item { color: #64748b; }
+    .hero .hero-tag { color: #60a5fa; border-color: rgba(120,160,255,0.2); }
+
+    .hero-moon {
+      position: absolute;
+      right: -4%;
+      top: 50%;
+      transform: translateY(-54%);
+      width: min(520px, 58vw);
+      pointer-events: none;
+    }
+
+    .hero-moon svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 60px rgba(120,160,255,0.18)) drop-shadow(0 0 120px rgba(80,110,220,0.10));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 5% 4.5rem;
+      max-width: 720px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 2px;
+      background: var(--accent2);
+      border-radius: 2px;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.2rem, 9vw, 6.5rem);
+      line-height: 0.93;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title span {
+      color: var(--accent2);
+    }
+
+    .hero-subtitle {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 2.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+
+    .hero-meta-item {
+      font-size: 0.78rem;
+      color: var(--text-faint);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-item svg {
+      opacity: 0.6;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--accent2);
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── STAT BAND ── */
+    .stat-band {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2.2rem 5%;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--accent2);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .article-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3.5rem 5% 4rem;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin: 3.5rem 0 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--accent);
+      position: relative;
+    }
+
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    /* ── BODY TEXT ── */
+    .article-body p {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+    }
+
+    .article-body strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      background: var(--surface2);
+      padding: 1.4rem 1.8rem;
+      margin: 2.5rem 0;
+      border-radius: 0 8px 8px 0;
+      position: relative;
+    }
+
+    .pull-quote::before {
+      content: '"';
+      font-family: 'Source Serif 4', serif;
+      font-size: 5rem;
+      color: var(--accent);
+      opacity: 0.18;
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .pull-quote p {
+      font-family: 'Source Serif 4', serif;
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--text-muted) !important;
+      line-height: 1.75;
+      margin: 0 !important;
+    }
+
+    .pull-quote cite {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      color: var(--text-faint);
+      margin-top: 0.8rem;
+      font-style: normal;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MISSION CARDS ── */
+    .mission-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .mission-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 1.2rem;
+      align-items: start;
+      transition: border-color 0.2s, transform 0.2s;
+      opacity: 0;
+      transform: translateX(-12px);
+    }
+
+    .mission-card.visible {
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 0.5s, transform 0.5s, border-color 0.2s;
+    }
+
+    .mission-card:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .mission-badge {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    .mission-badge .m-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent2);
+      display: block;
+      line-height: 1;
+    }
+
+    .mission-badge .m-year {
+      font-size: 0.65rem;
+      color: var(--text-faint);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .mission-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+
+    .mission-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .mission-status {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-top: 0.5rem;
+    }
+
+    .status-done   { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+    .status-active { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+    .status-plan   { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+
+    html.light .status-done   { background: rgba(22,163,74,0.1);  color: #15803d; border-color: rgba(22,163,74,0.2); }
+    html.light .status-active { background: rgba(37,99,235,0.1);  color: #1d4ed8; border-color: rgba(37,99,235,0.2); }
+    html.light .status-plan   { background: rgba(180,83,9,0.1);   color: #92400e; border-color: rgba(180,83,9,0.2); }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 0 0 12px 12px;
+      padding: 1.6rem 1.8rem;
+      margin: 2.5rem 0;
+    }
+
+    .highlight-box h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 0.9rem;
+    }
+
+    .highlight-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .highlight-box ul li {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      padding: 0.45rem 0;
+      padding-left: 1.4rem;
+      position: relative;
+      line-height: 1.55;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .highlight-box ul li:last-child { border-bottom: none; }
+
+    .highlight-box ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.85rem;
+    }
+
+    /* ── INLINE SVG ILLUSTRATION ── */
+    .illustration-wrap {
+      margin: 2.5rem 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .illustration-wrap svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ── ARTICLE NOTE ── */
+    .article-note {
+      background: var(--surface2);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.4rem;
+      margin: 2rem 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ── SOURCE LIST ── */
+    .sources {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sources h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      margin-bottom: 1rem;
+    }
+
+    .sources ol {
+      padding-left: 1.4rem;
+    }
+
+    .sources ol li {
+      font-size: 0.8rem;
+      color: var(--text-faint);
+      line-height: 1.6;
+      margin-bottom: 0.45rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .sources ol li a {
+      color: var(--accent2);
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .sources ol li a:hover { text-decoration: underline; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { min-height: 80vh; align-items: flex-end; }
+      .hero-content { padding: 3rem 5% 3.5rem; }
+      .hero-moon { width: 62vw; top: 12%; transform: none; right: -10%; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+      .mission-card { grid-template-columns: 1fr; }
+      .mission-badge { display: flex; align-items: center; gap: 8px; width: max-content; }
+      .mission-badge .m-num { font-size: 1.1rem; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-moon { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+
+  <!-- Bintang-bintang -->
+  <div class="hero-stars" id="starsContainer"></div>
+
+  <!-- Ilustrasi Bulan SVG -->
+  <div class="hero-moon">
+    <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="moonGrad" cx="42%" cy="38%" r="56%">
+          <stop offset="0%"   stop-color="#c8d8f8"/>
+          <stop offset="40%"  stop-color="#8aa8d8"/>
+          <stop offset="80%"  stop-color="#4060a0"/>
+          <stop offset="100%" stop-color="#1a2848"/>
+        </radialGradient>
+        <radialGradient id="craterG1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#2a3a60" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <filter id="moonGlow">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="moonClip">
+          <circle cx="250" cy="250" r="240"/>
+        </clipPath>
+      </defs>
+      <!-- Bola bulan -->
+      <circle cx="250" cy="250" r="240" fill="url(#moonGrad)" filter="url(#moonGlow)"/>
+      <!-- Kawah-kawah -->
+      <g clip-path="url(#moonClip)" opacity="0.5">
+        <ellipse cx="180" cy="160" rx="38" ry="36" fill="url(#craterG1)"/>
+        <ellipse cx="320" cy="200" rx="24" ry="22" fill="url(#craterG1)"/>
+        <ellipse cx="140" cy="310" rx="50" ry="46" fill="url(#craterG1)"/>
+        <ellipse cx="360" cy="340" rx="30" ry="28" fill="url(#craterG1)"/>
+        <ellipse cx="280" cy="390" rx="18" ry="17" fill="url(#craterG1)"/>
+        <ellipse cx="90"  cy="220" rx="15" ry="14" fill="url(#craterG1)"/>
+        <ellipse cx="420" cy="140" rx="20" ry="18" fill="url(#craterG1)"/>
+        <circle cx="180" cy="160" r="38" fill="none" stroke="rgba(200,220,255,0.2)" stroke-width="2"/>
+        <circle cx="140" cy="310" r="50" fill="none" stroke="rgba(200,220,255,0.18)" stroke-width="2.5"/>
+      </g>
+      <!-- Sisi malam -->
+      <path d="M250,10 A240,240 0 0 0 250,490 Q130,490 130,250 Q130,10 250,10 Z" fill="#050a1a" opacity="0.32"/>
+      <!-- Cincin luar -->
+      <circle cx="250" cy="250" r="240" fill="none" stroke="rgba(150,190,255,0.12)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Astronomi &amp; Teknologi Luar Angkasa</div>
+    <h1 class="hero-title">Program<br/><span>Artemis</span></h1>
+    <p class="hero-subtitle">Dari Apollo ke Artemis — bagaimana NASA merancang kehadiran manusia permanen di Bulan, dan mengapa misi ini jauh lebih ambisius dari sekadar nostalgia.</p>
+    <div class="hero-meta">
+      <span class="hero-tag">Astronomi</span>
+      <span class="hero-meta-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Mei 2026
+      </span>
+      <span class="hero-meta-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        KBDI — Astronomi
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STAT BAND ══════════ -->
+<div class="stat-band">
+  <div class="stat-grid">
+    <div class="stat-item">
+      <span class="stat-number">252.756</span>
+      <span class="stat-label">Mil dari Bumi — Rekor Artemis II</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">54</span>
+      <span class="stat-label">Tahun sejak manusia terakhir ke Bulan</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">45+</span>
+      <span class="stat-label">Negara penandatangan Artemis Accords</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">2028</span>
+      <span class="stat-label">Target pendaratan pertama Artemis IV</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ARTIKEL ══════════ -->
+<main class="article-wrap">
+  <div class="article-body">
+
+    <!-- Pengantar -->
+    <h2 class="section-heading reveal">Mengapa Kita Perlu Kembali ke Bulan?</h2>
+
+    <p class="reveal">Pada Juli 1969, manusia pertama kali menginjakkan kaki di Bulan. Momen itu menjadi salah satu pencapaian terbesar dalam sejarah peradaban — namun setelah Apollo 17 pada Desember 1972, tidak ada lagi manusia yang kembali ke sana. Lebih dari lima dekade berlalu. Kini, NASA sedang membangun fondasi untuk memastikan hal itu tidak terulang.</p>
+
+    <p class="reveal">Program Artemis bukan sekadar replikasi Apollo. Di balik namanya — diambil dari dewi Bulan dalam mitologi Yunani, sekaligus saudara kembar Apollo — tersimpan ambisi yang jauh lebih besar: membangun kehadiran manusia yang berkelanjutan di Bulan, dan menjadikannya batu loncatan menuju Mars.</p>
+
+    <div class="pull-quote reveal">
+      <p>Tujuan kami bukan hanya mengunjungi Bulan. Kami ingin pergi ke sana — dan tinggal di sana.</p>
+      <cite>— NASA, pernyataan visi Program Artemis</cite>
+    </div>
+
+    <p class="reveal">Program ini secara resmi ditetapkan melalui <strong>Space Policy Directive-1</strong> pada Desember 2017. Berbeda dengan Apollo yang didorong oleh rivalitas Perang Dingin, Artemis didasari oleh kombinasi kepentingan ilmiah, ekonomi, dan geopolitik jangka panjang — termasuk kompetisi dengan program luar angkasa Tiongkok yang semakin agresif.</p>
+
+    <!-- Ilustrasi orbit animasi -->
+    <div class="illustration-wrap reveal" style="overflow:hidden; padding:0;">
+      <div class="journey-anim" id="journeyAnim">
+        <canvas id="journeyCanvas"></canvas>
+        <div class="journey-label-bar">
+          <span class="jlabel" id="jlabel">🚀 Lepas Landas dari Bumi…</span>
+        </div>
+      </div>
+    </div>
+
+    <style>
+    .journey-anim {
+      position: relative;
+      background: var(--bg2);
+      border-radius: 0;
+      width: 100%;
+    }
+    #journeyCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .journey-label-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      text-align: center;
+    }
+    .jlabel {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.03em;
+      transition: opacity 0.4s;
+    }
+    </style>
+
+    <script>
+    (function() {
+      const canvas = document.getElementById('journeyCanvas');
+      const ctx = canvas.getContext('2d');
+      const labelEl = document.getElementById('jlabel');
+
+      // Responsive: tinggi tetap 220, lebar menyesuaikan
+      const H = 220;
+      function resize() {
+        const W = canvas.parentElement.clientWidth;
+        canvas.width = W;
+        canvas.height = H;
+        canvas.style.height = H + 'px';
+        return W;
+      }
+
+      // Titik-titik tetap (dalam rasio lebar)
+      function getPoints(W) {
+        return {
+          earth:  { x: W * 0.10, y: H / 2, r: Math.min(46, W * 0.056) },
+          moon:   { x: W * 0.62, y: H / 2, r: Math.min(38, W * 0.046) },
+          mars:   { x: W * 0.88, y: H / 2, r: Math.min(20, W * 0.024) },
+        };
+      }
+
+      // Bezier: Bumi → Bulan (atas)
+      function bezierPos(t, pts) {
+        const ex = pts.earth.x + pts.earth.r, ey = pts.earth.y;
+        const mx = pts.moon.x - pts.moon.r,   my = pts.moon.y;
+        const cx = (ex + mx) / 2, cy = H * 0.14;
+        const x = (1-t)*(1-t)*ex + 2*(1-t)*t*cx + t*t*mx;
+        const y = (1-t)*(1-t)*ey + 2*(1-t)*t*cy + t*t*my;
+        // tangent for rotation
+        const dx = 2*(1-t)*(cx-ex) + 2*t*(mx-cx);
+        const dy = 2*(1-t)*(cy-ey) + 2*t*(my-cy);
+        return { x, y, angle: Math.atan2(dy, dx) };
+      }
+
+      // Linear: Bulan → Mars
+      function linPos(t, pts) {
+        const sx = pts.moon.x + pts.moon.r, sy = pts.moon.y;
+        const ex = pts.mars.x - pts.mars.r, ey = pts.mars.y;
+        return {
+          x: sx + (ex - sx) * t,
+          y: sy + (ey - sy) * t,
+          angle: Math.atan2(ey - sy, ex - sx)
+        };
+      }
+
+      // Fasa: 0=launch→moon (0-0.55), 1=orbit moon (0.55-0.70), 2=moon→mars (0.70-1)
+      const PHASE_END = [0.55, 0.72, 1.0];
+      const LABELS = [
+        '🚀 Meluncur dari Bumi menuju Bulan…',
+        '🌕 Memasuki Orbit Lunar…',
+        '🔴 Menuju Mars — Tujuan Jangka Panjang!'
+      ];
+
+      let progress = 0; // 0..1
+      let lastTime = null;
+      let speed = 0.00032; // satuan per ms
+      let currentLabel = -1;
+      let trailPoints = [];
+
+      function setLabel(idx) {
+        if (idx === currentLabel) return;
+        currentLabel = idx;
+        labelEl.style.opacity = 0;
+        setTimeout(() => {
+          labelEl.textContent = LABELS[idx];
+          labelEl.style.opacity = 1;
+        }, 300);
+      }
+
+      function drawEarth(ctx, p) {
+        // Gradien bumi
+        const g = ctx.createRadialGradient(p.x - p.r*0.3, p.y - p.r*0.3, p.r*0.1, p.x, p.y, p.r);
+        g.addColorStop(0,   '#6ab0e8');
+        g.addColorStop(0.5, '#2a6fba');
+        g.addColorStop(1,   '#0e2a54');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        // atmosfer
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r + 4, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(100,180,255,0.18)';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        // label
+        ctx.font = `bold 11px "DM Sans", sans-serif`;
+        ctx.fillStyle = '#64748b';
+        ctx.textAlign = 'center';
+        ctx.fillText('Bumi', p.x, p.y + p.r + 16);
+      }
+
+      function drawMoon(ctx, p) {
+        const g = ctx.createRadialGradient(p.x - p.r*0.3, p.y - p.r*0.3, p.r*0.08, p.x, p.y, p.r);
+        g.addColorStop(0,   '#d0ddf0');
+        g.addColorStop(0.5, '#8098c0');
+        g.addColorStop(1,   '#3a5080');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        // kawah kecil
+        [[-.3,-.2,.22],[.25,.3,.14],[-.1,.35,.1]].forEach(([dx,dy,dr]) => {
+          ctx.beginPath();
+          ctx.arc(p.x+dx*p.r, p.y+dy*p.r, dr*p.r, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(40,60,100,0.28)';
+          ctx.fill();
+        });
+        // orbit ring
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.r+18, p.r*0.36, 0, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(140,170,230,0.22)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4,5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = `bold 11px "DM Sans", sans-serif`;
+        ctx.fillStyle = '#64748b';
+        ctx.textAlign = 'center';
+        ctx.fillText('Bulan', p.x, p.y + p.r + 16);
+      }
+
+      function drawMars(ctx, p) {
+        const g = ctx.createRadialGradient(p.x - p.r*0.3, p.y - p.r*0.3, p.r*0.1, p.x, p.y, p.r);
+        g.addColorStop(0,   '#e07050');
+        g.addColorStop(0.6, '#b04830');
+        g.addColorStop(1,   '#5a1a0a');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.font = `bold 11px "DM Sans", sans-serif`;
+        ctx.fillStyle = '#64748b';
+        ctx.textAlign = 'center';
+        ctx.fillText('Mars', p.x, p.y + p.r + 16);
+      }
+
+      function drawPath(ctx, pts) {
+        const ex = pts.earth.x + pts.earth.r, ey = pts.earth.y;
+        const mx = pts.moon.x - pts.moon.r,   my = pts.moon.y;
+        const cx = (ex + mx) / 2, cy = H * 0.14;
+        // kurva atas (jalur utama)
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.quadraticCurveTo(cx, cy, mx, my);
+        ctx.strokeStyle = 'rgba(96,165,250,0.22)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6,5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // bumi → bulan bawah (return path tipis)
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.quadraticCurveTo(cx, H*0.86, mx, my);
+        ctx.strokeStyle = 'rgba(96,165,250,0.10)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3,6]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // bulan → mars
+        ctx.beginPath();
+        ctx.moveTo(pts.moon.x + pts.moon.r, pts.moon.y);
+        ctx.lineTo(pts.mars.x - pts.mars.r, pts.mars.y);
+        ctx.strokeStyle = 'rgba(192,96,74,0.22)';
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([4,5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      function drawRocket(ctx, x, y, angle) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle + Math.PI/2); // roket tegak, arahkan ke sudut lintasan
+
+        // api kecil
+        const flicker = 0.8 + Math.random() * 0.4;
+        const fg = ctx.createRadialGradient(0, 10, 0, 0, 14, 10 * flicker);
+        fg.addColorStop(0,   'rgba(255,255,220,0.95)');
+        fg.addColorStop(0.3, 'rgba(255,180,40,0.8)');
+        fg.addColorStop(0.7, 'rgba(255,80,10,0.5)');
+        fg.addColorStop(1,   'rgba(255,50,0,0)');
+        ctx.beginPath();
+        ctx.ellipse(0, 12 * flicker, 4, 10 * flicker, 0, 0, Math.PI*2);
+        ctx.fillStyle = fg;
+        ctx.fill();
+
+        // body roket
+        ctx.beginPath();
+        ctx.roundRect(-4, -12, 8, 20, 2);
+        ctx.fillStyle = '#c8d8f0';
+        ctx.fill();
+        // stripe merah
+        ctx.fillStyle = 'rgba(220,50,50,0.8)';
+        ctx.fillRect(-4, -2, 8, 4);
+        // nose cone
+        ctx.beginPath();
+        ctx.moveTo(-4, -12);
+        ctx.lineTo(0, -20);
+        ctx.lineTo(4, -12);
+        ctx.fillStyle = '#4a7ac0';
+        ctx.fill();
+        // sayap kiri
+        ctx.beginPath();
+        ctx.moveTo(-4, 4);
+        ctx.lineTo(-10, 10);
+        ctx.lineTo(-4, 8);
+        ctx.fillStyle = '#3a5a90';
+        ctx.fill();
+        // sayap kanan
+        ctx.beginPath();
+        ctx.moveTo(4, 4);
+        ctx.lineTo(10, 10);
+        ctx.lineTo(4, 8);
+        ctx.fillStyle = '#3a5a90';
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      function drawTrail(ctx, trail) {
+        if (trail.length < 2) return;
+        for (let i = 1; i < trail.length; i++) {
+          const alpha = (i / trail.length) * 0.5;
+          ctx.beginPath();
+          ctx.moveTo(trail[i-1].x, trail[i-1].y);
+          ctx.lineTo(trail[i].x, trail[i].y);
+          ctx.strokeStyle = `rgba(150,200,255,${alpha})`;
+          ctx.lineWidth = 1.5 * (i / trail.length);
+          ctx.stroke();
+        }
+      }
+
+      function getRocketPos(progress, pts) {
+        if (progress < PHASE_END[0]) {
+          // Bumi → Bulan
+          const t = progress / PHASE_END[0];
+          return bezierPos(t, pts);
+        } else if (progress < PHASE_END[1]) {
+          // Orbit bulan (memutar di sekitar bulan)
+          const t = (progress - PHASE_END[0]) / (PHASE_END[1] - PHASE_END[0]);
+          const angle = -Math.PI * 0.5 + t * Math.PI * 1.4;
+          const rx = pts.moon.r + 20, ry = pts.moon.r * 0.4;
+          return {
+            x: pts.moon.x + Math.cos(angle) * rx,
+            y: pts.moon.y + Math.sin(angle) * ry,
+            angle: angle + Math.PI/2
+          };
+        } else {
+          // Bulan → Mars
+          const t = (progress - PHASE_END[1]) / (PHASE_END[2] - PHASE_END[1]);
+          return linPos(Math.min(t, 0.96), pts);
+        }
+      }
+
+      function getPhase(p) {
+        if (p < PHASE_END[0]) return 0;
+        if (p < PHASE_END[1]) return 1;
+        return 2;
+      }
+
+      // Bintang latar
+      let stars = [];
+      function initStars(W) {
+        stars = [];
+        for (let i = 0; i < 60; i++) {
+          stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.2 + 0.2,
+            a: Math.random() * 0.6 + 0.1
+          });
+        }
+      }
+
+      function drawStars(ctx, W) {
+        stars.forEach(s => {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+          ctx.fill();
+        });
+      }
+
+      function draw(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = ts - lastTime;
+        lastTime = ts;
+
+        let W = canvas.width;
+        const pts = getPoints(W);
+
+        // update progress
+        progress += speed * dt;
+        if (progress > 1.05) {
+          progress = 0;
+          trailPoints = [];
+        }
+        const p = Math.min(progress, 1.0);
+
+        // label update
+        setLabel(getPhase(p));
+
+        // background
+        const isDark = !document.documentElement.classList.contains('light');
+        ctx.fillStyle = isDark ? '#0d1220' : '#e8eef9';
+        ctx.fillRect(0, 0, W, H);
+
+        if (isDark) drawStars(ctx, W);
+
+        drawPath(ctx, pts);
+        drawEarth(ctx, pts.earth);
+        drawMoon(ctx, pts.moon);
+        drawMars(ctx, pts.mars);
+
+        // roket posisi
+        const pos = getRocketPos(p, pts);
+
+        // trail
+        trailPoints.push({ x: pos.x, y: pos.y });
+        if (trailPoints.length > 40) trailPoints.shift();
+        drawTrail(ctx, trailPoints);
+
+        drawRocket(ctx, pos.x, pos.y, pos.angle);
+
+        requestAnimationFrame(draw);
+      }
+
+      function init() {
+        let W = resize();
+        initStars(W);
+        window.addEventListener('resize', () => {
+          W = resize();
+          initStars(W);
+        });
+        requestAnimationFrame(draw);
+      }
+
+      // Tunggu DOM siap
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+    </script>
+
+    <!-- Komponen Utama -->
+    <h2 class="section-heading reveal">Tiga Pilar Teknologi Artemis</h2>
+
+    <p class="reveal">Program Artemis bertumpu pada tiga komponen teknis utama yang bekerja secara terintegrasi. Ketiganya dirancang untuk saling melengkapi dalam membawa manusia dari permukaan bumi hingga ke permukaan Bulan.</p>
+
+    <div class="highlight-box reveal">
+      <h4>Komponen Utama</h4>
+      <ul>
+        <li><strong>Space Launch System (SLS)</strong> — Roket superberat berbasis teknologi Space Shuttle, satu-satunya roket yang mampu mengirimkan Orion, awak, dan kargo langsung ke Bulan dalam satu peluncuran. Menghasilkan 8,8 juta pound daya dorong saat lepas landas.</li>
+        <li><strong>Orion (Spacecraft)</strong> — Kapsul kru empat astronaut yang dilengkapi European Service Module buatan Airbus/ESA. Dirancang bertahan dari kondisi luar angkasa dalam, termasuk radiasi kosmik dan panas reentry yang ekstrem.</li>
+        <li><strong>Human Landing System (HLS)</strong> — Wahana pendarat lunar komersial yang dikembangkan SpaceX (Starship HLS) dan Blue Origin (Blue Moon). Berfungsi mengangkut dua astronaut dari orbit lunar ke permukaan Bulan dan kembali lagi.</li>
+      </ul>
+    </div>
+
+    <p class="reveal">Di luar tiga pilar utama itu, NASA juga mengoperasikan program <strong>Commercial Lunar Payload Services (CLPS)</strong> yang mengontrak perusahaan swasta untuk mengirimkan muatan robotik ke Bulan — memetakan sumber daya, menguji teknologi in-situ, dan mempersiapkan tempat pendaratan. Pada Maret 2025, wahana Firefly Aerospace's Blue Ghost berhasil mendarat di kawasan Mare Crisium — pendaratan komersial pertama yang sukses di Bulan.</p>
+
+    <!-- Timeline Misi -->
+    <h2 class="section-heading reveal">Jejak Misi: Dari Artemis I hingga Artemis IV</h2>
+
+    <p class="reveal">Program Artemis dirancang sebagai serangkaian misi bertahap yang masing-masing membangun kapabilitas untuk misi berikutnya. Berikut jejak dan status terkininya (per Mei 2026):</p>
+
+    <div class="mission-timeline">
+
+      <div class="mission-card">
+        <div class="mission-badge">
+          <span class="m-num">I</span>
+          <span class="m-year">Nov 2022</span>
+        </div>
+        <div>
+          <div class="mission-name">Artemis I — Uji Tanpa Awak</div>
+          <div class="mission-desc">Peluncuran perdana SLS dan Orion tanpa awak. Orion menempuh jarak 40.000 mil melampaui Bulan sebelum kembali ke Bumi. Misi berhasil membuktikan kemampuan dasar sistem, meski ditemukan erosi tak terduga pada heat shield saat reentry.</div>
+          <span class="mission-status status-done">Selesai</span>
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-badge">
+          <span class="m-num">II</span>
+          <span class="m-year">Apr 2026</span>
+        </div>
+        <div>
+          <div class="mission-name">Artemis II — Penerbangan Bersejarah Berawak</div>
+          <div class="mission-desc">Misi berawak pertama sejak Apollo 17 (1972). Empat astronaut — Reid Wiseman, Victor Glover, Christina Koch (NASA), dan Jeremy Hansen (CSA Kanada) — melakukan flyby lunar 6 April 2026. Orion melampaui rekor jarak Apollo 13 dengan mencapai 252.756 mil dari Bumi. Misi mendarat di Samudra Pasifik, 10 April 2026.</div>
+          <span class="mission-status status-done">Selesai</span>
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-badge">
+          <span class="m-num">III</span>
+          <span class="m-year">~2027</span>
+        </div>
+        <div>
+          <div class="mission-name">Artemis III — Uji Wahana Pendarat di Orbit Rendah</div>
+          <div class="mission-desc">Rencana awal pendaratan lunar direvisi. Artemis III kini dijadwalkan sebagai misi uji rendezvous dan docking Orion dengan HLS (Starship dan Blue Moon) di orbit rendah Bumi. Target peluncuran: akhir 2027, dikonfirmasi Administrator NASA Jared Isaacman pada April 2026.</div>
+          <span class="mission-status status-plan">Direncanakan</span>
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <div class="mission-badge">
+          <span class="m-num">IV</span>
+          <span class="m-year">~2028</span>
+        </div>
+        <div>
+          <div class="mission-name">Artemis IV — Pendaratan Pertama di Kutub Selatan Bulan</div>
+          <div class="mission-desc">Misi pendaratan berawak pertama program Artemis. Dua dari empat astronaut akan turun ke permukaan di kawasan Kutub Selatan Bulan — wilayah yang belum pernah dikunjungi manusia — menggunakan SLS varian Block 1B yang lebih besar. NASA menargetkan peluncuran akhir 2028.</div>
+          <span class="mission-status status-plan">Direncanakan</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Artemis II: Detail -->
+    <h2 class="section-heading reveal">Artemis II: Manusia Melampaui Rekor 56 Tahun</h2>
+
+    <p class="reveal">Misi Artemis II adalah pencapaian nyata pertama yang bisa dirasakan publik secara langsung. Diluncurkan 1 April 2026 dari Kennedy Space Center dengan daya dorong 8,8 juta pound, kapsul Orion bernama <em>Integrity</em> membawa empat astronaut menuju Bulan untuk pertama kalinya sejak Apollo 17.</p>
+
+    <p class="reveal">Puncak misi terjadi pada 6 April 2026, ketika Orion melintas hanya sejauh 4.070 mil di atas permukaan Bulan dalam flyby tujuh jam. Selama periode itu, kru mendokumentasikan lebih dari 7.000 foto kawah lunar, termasuk wilayah sisi jauh Bulan yang tak pernah dilihat langsung oleh mata manusia sebelumnya. Mereka juga menyaksikan gerhana matahari total dari orbit lunar — Matahari menghilang di balik Bulan selama hampir satu jam.</p>
+
+    <div class="pull-quote reveal">
+      <p>Kami kini jatuh ke arah Bulan, bukan lagi naik menjauhi Bumi. Ini adalah tonggak yang luar biasa.</p>
+      <cite>— Christina Koch, Misi Spesialis Artemis II, 6 April 2026</cite>
+    </div>
+
+    <p class="reveal">Pada pukul 19:02 EDT tanggal yang sama, Orion mencapai jarak maksimumnya: <strong>252.756 mil dari Bumi</strong> — memecahkan rekor 56 tahun yang sebelumnya dipegang Apollo 13 (248.655 mil, 1970). Total jarak yang ditempuh selama 10 hari misi mencapai 694.481 mil. Misi berakhir dengan splashdown mulus di Samudra Pasifik lepas pantai San Diego pada 10 April 2026.</p>
+
+    <div class="article-note reveal">
+      <strong>Catatan:</strong> Artemis II juga menjadi misi pertama yang membawa astronaut non-Amerika ke orbit bulan: Jeremy Hansen dari Canadian Space Agency (CSA) adalah orang Kanada pertama yang melakukan perjalanan sejauh itu dari Bumi.
+    </div>
+
+    <!-- Konteks Ilmiah -->
+    <h2 class="section-heading reveal">Ilmu Pengetahuan di Balik Ambisi</h2>
+
+    <p class="reveal">Program Artemis bukan sekadar unjuk kekuatan teknologi — ada agenda ilmiah yang substansial. Kutub Selatan Bulan menjadi fokus utama karena kawasan ini diduga menyimpan es air dalam jumlah signifikan di dalam kawah permanen yang tak pernah tersentuh sinar matahari.</p>
+
+    <p class="reveal">Es tersebut bukan hanya berharga secara ilmiah, tapi juga strategis: jika dapat diekstraksi, ia bisa dipecah menjadi oksigen dan hidrogen — bahan bakar roket. Inilah konsep <strong>In-Situ Resource Utilization (ISRU)</strong> yang menjadi kunci keberlangsungan jangka panjang. Basis di Bulan yang mandiri secara energi dan bahan bakar akan membuat misi Mars jauh lebih terjangkau.</p>
+
+    <div class="highlight-box reveal">
+      <h4>Agenda Ilmiah Artemis</h4>
+      <ul>
+        <li>Pemetaan dan eksplorasi es air di kawah abadi Kutub Selatan Bulan</li>
+        <li>Uji teknologi ISRU: mengolah tanah bulan menjadi oksigen dan bahan bakar roket</li>
+        <li>Penelitian geologi: komposisi mineral, sejarah tumbukan asteroid, dan evolusi permukaan</li>
+        <li>Studi dampak radiasi kosmik pada jaringan manusia (investigasi AVATAR di Artemis II)</li>
+        <li>Pengembangan tanaman pertanian di permukaan Bulan (eksperimen LEAF)</li>
+        <li>Pemantauan seismik untuk memahami struktur interior Bulan (instrumen LEMS)</li>
+      </ul>
+    </div>
+
+    <!-- Dimensi Geopolitik -->
+    <h2 class="section-heading reveal">Dimensi Geopolitik: Lebih dari Sekadar Eksplorasi</h2>
+
+    <p class="reveal">Salah satu aspek Artemis yang kurang disorot media mainstream adalah dimensi geopolitiknya. Pada 2019, NASA memperkenalkan <strong>Artemis Accords</strong> — serangkaian prinsip hukum internasional untuk mengatur perilaku eksplorasi Bulan secara damai, transparan, dan interoperabel. Hingga 2026, lebih dari 45 negara telah menandatanganinya.</p>
+
+    <p class="reveal">Jepang, misalnya, telah menandatangani perjanjian khusus dengan NASA pada April 2024 untuk mengembangkan rover bertekanan yang dapat membawa astronaut. Sebagai imbalannya, astronaut Jepang akan mendapat kesempatan mendarat di permukaan Bulan — menjadi non-Amerika pertama yang melakukannya.</p>
+
+    <p class="reveal">Di latar belakang ini, Tiongkok dan Rusia membangun aliansi mereka sendiri dengan program ILRS (International Lunar Research Station), yang menargetkan kehadiran robotik permanen di Bulan pada akhir dekade ini. Persaingan diam-diam untuk menguasai wilayah strategis di Kutub Selatan Bulan — tempat sumber daya es paling melimpah — kini semakin nyata.</p>
+
+    <!-- Tantangan dan Anggaran -->
+    <h2 class="section-heading reveal">Tantangan: Biaya, Keterlambatan, dan Tekanan Politik</h2>
+
+    <p class="reveal">Program sebesar Artemis tentu tidak berjalan tanpa hambatan. Badan Pemeriksa Keuangan AS (GAO) mencatat pada 2025 bahwa cost overrun tiga proyek Artemis utama telah mencapai <strong>$6,8 miliar</strong>. SLS sendiri menghabiskan sekitar $4 miliar per peluncuran — angka yang memicu tekanan untuk beralih ke roket komersial yang lebih murah.</p>
+
+    <p class="reveal">Pada Mei 2025, pemerintahan Trump ke-2 mengusulkan anggaran fiskal 2026 yang berisi rencana penghentian SLS dan Orion setelah Artemis III, menggantinya dengan solusi komersial dari SpaceX dan Blue Origin untuk misi-misi selanjutnya. Realisasi kebijakan ini masih diperdebatkan di Kongres.</p>
+
+    <p class="reveal">Di sisi teknis, baju antariksa generasi baru (AxEMU) yang dikembangkan Axiom Space masih dalam tahap sertifikasi dan direncanakan diuji di orbit pada 2027. Wahana pendarat HLS dari SpaceX dan Blue Origin juga masih harus menyelesaikan proses human-rating NASA yang ketat sebelum bisa membawa manusia ke permukaan Bulan.</p>
+
+    <!-- Visi Jangka Panjang -->
+    <h2 class="section-heading reveal">Dari Bulan ke Mars: Visi "Moon to Mars"</h2>
+
+    <p class="reveal">Di luar semua tantangan teknis dan politik itu, Program Artemis tetap mempertahankan visi jangka panjang yang ambisius. Desember 2025, Presiden Trump menandatangani <strong>Executive Order "Ensuring American Space Superiority"</strong> yang mewajibkan NASA membangun elemen awal pangkalan lunar permanen sebelum 2030, termasuk reaktor nuklir di permukaan Bulan.</p>
+
+    <p class="reveal">Konsep Bulan sebagai "batu loncatan" ke Mars bukan sekadar retorika. Teknologi yang dikembangkan Artemis — mulai dari ISRU, sistem pendukung kehidupan jangka panjang, baju antariksa generasi baru, hingga navigasi otonom — semuanya dirancang untuk dapat diterapkan pada misi Mars yang diperkirakan akan dilakukan pada tahun 2030-an.</p>
+
+    <p class="reveal">Bagi generasi yang lahir setelah 1972, momen ketika manusia kembali menginjakkan kaki di Bulan — dan kali ini tinggal di sana — mungkin bukan lagi mimpi. Dengan Artemis II yang berhasil diselesaikan, NASA kini menatap ke depan: menuju permukaan, dan jauh melampaui itu.</p>
+
+    <div class="pull-quote reveal">
+      <p>Artemis II membuktikan bahwa Orion, SLS, dan kemampuan eksplorasi manusia bisa berjalan lebih jauh dari sebelumnya. Fokus kini beralih dengan penuh keyakinan ke Artemis III dan kembali ke permukaan Bulan — untuk membangun pangkalan, dan tidak pernah melepaskan Bulan lagi.</p>
+      <cite>— Jared Isaacman, Administrator NASA, April 2026</cite>
+    </div>
+
+  </div><!-- /article-body -->
+
+  <!-- ══ SUMBER ══ -->
+  <div class="sources reveal">
+    <h3>Sumber &amp; Referensi</h3>
+    <ol>
+      <li>NASA Official. <em>Moon to Mars | NASA's Artemis Program.</em> <a href="https://www.nasa.gov/humans-in-space/artemis/" target="_blank">nasa.gov</a></li>
+      <li>NASA. <em>NASA Welcomes Record-Setting Artemis II Moonfarers Back to Earth.</em> April 10, 2026. <a href="https://www.nasa.gov/news-release/nasa-welcomes-record-setting-artemis-ii-moonfarers-back-to-earth/" target="_blank">nasa.gov</a></li>
+      <li>NASA. <em>Artemis II Flight Day 6: Lunar Flyby Updates.</em> April 6, 2026. <a href="https://www.nasa.gov/blogs/missions/2026/04/06/artemis-ii-flight-day-6-lunar-flyby-updates/" target="_blank">nasa.gov</a></li>
+      <li>Wikipedia. <em>Artemis program.</em> <a href="https://en.wikipedia.org/wiki/Artemis_program" target="_blank">en.wikipedia.org</a></li>
+      <li>Wikipedia. <em>Artemis II.</em> <a href="https://en.wikipedia.org/wiki/Artemis_II" target="_blank">en.wikipedia.org</a></li>
+      <li>Wikipedia. <em>Artemis III.</em> <a href="https://en.wikipedia.org/wiki/Artemis_III" target="_blank">en.wikipedia.org</a></li>
+      <li>NPR. <em>NASA Artemis II crew head home after moon flyby.</em> April 6, 2026. <a href="https://www.npr.org/2026/04/06/nx-s1-5773187/nasa-artemis-ii-moon-lunar-flyby" target="_blank">npr.org</a></li>
+      <li>The Planetary Society. <em>The Artemis II mission.</em> <a href="https://www.planetary.org/articles/artemis-ii-what-to-expect" target="_blank">planetary.org</a></li>
+      <li>U.S. GAO. <em>NASA Artemis Missions: Exploration Ground Systems Program Could Strengthen Schedule Decisions.</em> Oct 2024. <a href="https://www.gao.gov/products/gao-25-106943" target="_blank">gao.gov</a></li>
+      <li>Congressional Research Service. <em>Artemis: NASA's Program to Return Humans to the Moon.</em> <a href="https://www.congress.gov/crs-product/IF11643" target="_blank">congress.gov</a></li>
+      <li>Royal Museums Greenwich. <em>Artemis Programme: what you need to know.</em> <a href="https://www.rmg.co.uk/stories/space-astronomy/nasa-moon-mission-artemis-program-launch-date" target="_blank">rmg.co.uk</a></li>
+    </ol>
+  </div>
+
+</main>
+
+<!-- ══════════ SCRIPT ══════════ -->
+<script>
+  /* Bintang-bintang di hero */
+  const container = document.getElementById('starsContainer');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.2 + 0.4;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${(Math.random()*3+2).toFixed(1)}s;
+      --max:${(Math.random()*0.7+0.1).toFixed(2)};
+      animation-delay:${(Math.random()*4).toFixed(1)}s;
+    `;
+    container.appendChild(s);
+  }
+
+  /* Scroll reveal */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal, .mission-card').forEach(el => io.observe(el));
+</script>
+
+<!-- Header/Footer KBDI -->
+<script>
+  const savedTheme = localStorage.getItem('kbdi-theme');
+  if (savedTheme === 'light') document.documentElement.classList.add('light');
+
+  fetch('https://edukbdi.github.io/header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('afterbegin', html);
+      const header = document.getElementById('kbdi-header');
+      if (savedTheme === 'light') header.classList.add('kbdi-light');
+      document.getElementById('kbdiThemeToggle').addEventListener('click', function() {
+        const isLight = document.documentElement.classList.toggle('light');
+        header.classList.toggle('kbdi-light', isLight);
+        localStorage.setItem('kbdi-theme', isLight ? 'light' : 'dark');
+        const footer = document.getElementById('kbdi-footer');
+        if (footer) footer.classList.toggle('kbdi-light', isLight);
+      });
+    });
+
+  fetch('https://edukbdi.github.io/footer.html')
+    .then(r => r.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      const footer = document.getElementById('kbdi-footer');
+      if (footer && savedTheme === 'light') footer.classList.add('kbdi-light');
+    });
+</script>
+
+</body>
+</html>
